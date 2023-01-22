@@ -2,7 +2,7 @@
 
 namespace aspnetserver.Data
 {
-    internal sealed class Post
+    public class Post
     {
         [Key]
         public int PostId { get; set; }

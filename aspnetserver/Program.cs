@@ -1,4 +1,5 @@
 using aspnetserver.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -12,6 +13,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(swaggerGenOptions =>
 {
     swaggerGenOptions.SwaggerDoc("v1", new OpenApiInfo { Title = "ASP.NET React Backend", Version= "v1" });
+});
+builder.Services.AddDbContext<AppDBContext>(options =>
+{
+    options.UseSqlite("Data Source=./Data/AppDB.db");
 });
 
 var app = builder.Build();
@@ -27,8 +32,8 @@ app.UseSwaggerUI(swaggerUIOptions =>
 
 app.UseHttpsRedirection();
 
-app.MapGet("/get-all-posts", async () => await PostsRepository.GetPostsAsync())
-    .WithTags("Posts");
+/*app.MapGet("/get-all-posts", async () => await PostsRepository.GetPostsAsync())
+    .WithTags("Posts");*/
 
 app.UseAuthorization();
 

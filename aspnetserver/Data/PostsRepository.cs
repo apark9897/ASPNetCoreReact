@@ -1,10 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("UnitTests")]
 namespace aspnetserver.Data
 {
     internal static class PostsRepository
     {
-        internal async static Task<List<Post>> GetPostsAsync()
+        /*internal async static Task<List<Post>> GetPostsAsync()
         {
             using (var db = new AppDBContext())
             {
@@ -67,6 +69,6 @@ namespace aspnetserver.Data
                     return false;
                 }
             }
-        }
+        }*/
     }
 }

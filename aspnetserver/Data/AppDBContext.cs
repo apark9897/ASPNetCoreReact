@@ -2,11 +2,13 @@
 
 namespace aspnetserver.Data
 {
-    internal sealed class AppDBContext : DbContext
+    public sealed class AppDBContext : DbContext
     {
         public DbSet<Post> Posts { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseSqlite("Data Source=./Data/AppDB.db");
+        public AppDBContext(DbContextOptions<AppDBContext> options) : base(options)
+        {
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
