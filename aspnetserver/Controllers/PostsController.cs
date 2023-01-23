@@ -15,7 +15,7 @@ namespace aspnetserver.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetPostsAsync()
+        public async Task<ActionResult<List<Post>>> GetPostsAsync()
         {
             List<Post> postsToReturn = await _dbContext.Posts.ToListAsync();
             if (postsToReturn.Count > 0)
@@ -26,7 +26,7 @@ namespace aspnetserver.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetPostByIdAsync(int id)
+        public async Task<ActionResult<Post>> GetPostByIdAsync(int id)
         {
             var postToReturn = await _dbContext.Posts.FirstOrDefaultAsync(post => post.PostId == id);
             if (postToReturn != null)
@@ -37,7 +37,7 @@ namespace aspnetserver.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreatePostAsync(Post postToCreate)
+        public async Task<ActionResult> CreatePostAsync(Post postToCreate)
         {
             try
             {
@@ -58,7 +58,7 @@ namespace aspnetserver.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdatePostAsync(Post postToUpdate)
+        public async Task<ActionResult> UpdatePostAsync(Post postToUpdate)
         {
             try
             {
@@ -79,7 +79,7 @@ namespace aspnetserver.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        public async Task<IActionResult> DeletePostAsync(int id)
+        public async Task<ActionResult> DeletePostAsync(int id)
         {
             try
             {

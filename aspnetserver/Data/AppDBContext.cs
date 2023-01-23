@@ -12,6 +12,10 @@ namespace aspnetserver.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            /*
+            
+            // seeding logic, uncomment only when needed
+
             Post[] postsToSeed = new Post[6];
 
             for (int i = 1; i <= 6; i++)
@@ -22,10 +26,10 @@ namespace aspnetserver.Data
                     Title = $"Post {i}",
                     Content = $"This is post {i} and it has some very interesting content."
                 };
-                
+
             }
 
-            modelBuilder.Entity<Post>().HasData(postsToSeed);
+            modelBuilder.Entity<Post>().HasData(postsToSeed);*/
         }
     }
 }
