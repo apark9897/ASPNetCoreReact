@@ -79,5 +79,43 @@ namespace UnitTests
             List<Post> postsResult = (List<Post>)result.Value;
             CollectionAssert.AreEqual(postsResult, postFixtures);
         }
+
+        [Test]
+        public async Task CreatePostAsync_Works()
+        {
+            // Arrange
+            var dbContext = await GetDatabaseContext();
+            var postController = new PostsController(dbContext);
+            var postToAdd = new Post()
+            {
+                PostId = 90,
+                Content = "I'm awesome",
+                Title = "Test"
+            };
+            var postLength = postFixtures.Count;
+
+            // Act
+            var posts = await postController.CreatePostAsync(postToAdd);
+
+            // Assert
+            Assert.AreEqual(posts.GetType(), typeof(OkObjectResult));
+            Assert.That(await dbContext.Posts.CountAsync(), Is.EqualTo(postLength + 1));
+        }
+
+        [Test]
+        public async Task DeletePostAsync_Works()
+        {
+            // Arrange
+            var dbContext = await GetDatabaseContext();
+            var postController = new PostsController(dbContext);
+            var postLength = postFixtures.Count;
+
+            // Act
+            var posts = await postController.DeletePostAsync(6);
+
+            // Assert
+            Assert.AreEqual(posts.GetType(), typeof(OkObjectResult));
+            Assert.That(await dbContext.Posts.CountAsync(), Is.EqualTo(postLength - 1));
+        }
     }
 }
