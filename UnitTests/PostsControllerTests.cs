@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using aspnetserver.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using aspnetserver.Data.Models;
 
 namespace UnitTests
 {
