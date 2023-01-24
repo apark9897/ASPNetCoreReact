@@ -5,6 +5,7 @@ using aspnetserver.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using aspnetserver.Data.Models;
+using aspnetserver.Data.DTOs;
 
 namespace UnitTests
 {
@@ -16,31 +17,41 @@ namespace UnitTests
             {
                 PostId = 1,
                 Title = "Looking for awesome peeps",
-                Content = "Hey there, I'm content for post 1 and I'm on the lookout"
+                Content = "Hey there, I'm content for post 1 and I'm on the lookout",
+                CategoryId = 1,
+                UserId = 1
             },
             new Post()
             {
                 PostId = 2,
                 Title = "I'm cool",
-                Content = "Hey there, I'm cool and I'm post 2"
+                Content = "Hey there, I'm cool and I'm post 2",
+                CategoryId = 1,
+                UserId = 1
             },
             new Post()
             {
                 PostId = 3,
                 Title = "Whats happening guys gals and nonbinary pals",
-                Content = "Hey there, I'm cool and I'm post 3, I stole the title for the cooking guy on yt"
+                Content = "Hey there, I'm cool and I'm post 3, I stole the title for the cooking guy on yt",
+                CategoryId = 1,
+                UserId = 2
             },
             new Post()
             {
                 PostId = 4,
                 Title = "Will I be awesome some day?",
-                Content = "Hey there, I'm not so cool rn and I'm only 8 and I'm post 4"
+                Content = "Hey there, I'm not so cool rn and I'm only 8 and I'm post 4",
+                CategoryId = 1,
+                UserId = 2
             },
             new Post()
             {
                 PostId = 6,
                 Title = "Finna bust a quacker",
-                Content = "Hey there, I'm urban and cool and I'm post 6, this is not a drill im so lit"
+                Content = "Hey there, I'm urban and cool and I'm post 6, this is not a drill im so lit",
+                CategoryId = 1,
+                UserId = 2
             }
         };
 
@@ -62,7 +73,6 @@ namespace UnitTests
             return databaseContext;
         }
 
-
         [Test]
         public async Task GetPostsAsync_Works()
         {
@@ -71,14 +81,14 @@ namespace UnitTests
             var postController = new PostsController(dbContext);
 
             // Act
-            var posts = await postController.GetPostsAsync();
+            var result1 = await postController.GetPostsAsync();
 
             // Assert
-            Assert.NotNull(posts.Result);
-            Assert.AreEqual(posts.Result.GetType(), typeof(OkObjectResult));
-            OkObjectResult result = (OkObjectResult)posts.Result;
-            List<Post> postsResult = (List<Post>)result.Value;
-            CollectionAssert.AreEqual(postsResult, postFixtures);
+            Assert.NotNull(result1.Result);
+            Assert.AreEqual(result1.Result.GetType(), typeof(OkObjectResult));
+            OkObjectResult result2 = (OkObjectResult)result1.Result;
+            List<PostDTO> postDtos = (List<PostDTO>)result2.Value;
+            Assert.AreEqual(postDtos.Count, postFixtures.Count);
         }
 
         [Test]
@@ -87,11 +97,13 @@ namespace UnitTests
             // Arrange
             var dbContext = await GetDatabaseContext();
             var postController = new PostsController(dbContext);
-            var postToAdd = new Post()
+            var postToAdd = new PostDTO()
             {
                 PostId = 90,
                 Content = "I'm awesome",
-                Title = "Test"
+                Title = "Test",
+                CategoryId = 1,
+                UserId = 1
             };
             var postLength = postFixtures.Count;
 

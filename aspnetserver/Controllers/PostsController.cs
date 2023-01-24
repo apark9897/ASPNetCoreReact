@@ -1,7 +1,10 @@
 ﻿using aspnetserver.Data;
+using aspnetserver.Data.DTOs;
 using aspnetserver.Data.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
+using System.Linq;
 
 namespace aspnetserver.Controllers
 {
@@ -16,9 +19,11 @@ namespace aspnetserver.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Post>>> GetPostsAsync()
+        public async Task<ActionResult<List<PostDTO>>> GetPostsAsync()
         {
-            List<Post> postsToReturn = await _dbContext.Posts.ToListAsync();
+            List<PostDTO> postsToReturn = await _dbContext.Posts
+                .Select(e => new PostDTO(e))
+                .ToListAsync();
             if (postsToReturn.Count > 0)
             {
                 return Ok(postsToReturn);
@@ -27,21 +32,25 @@ namespace aspnetserver.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<Post>> GetPostByIdAsync(int id)
+        public async Task<ActionResult<PostDTO>> GetPostByIdAsync(int id)
         {
-            var postToReturn = await _dbContext.Posts.FirstOrDefaultAsync(post => post.PostId == id);
+            var postToReturn = await _dbContext.Posts
+                .FirstOrDefaultAsync(post => post.PostId == id);
             if (postToReturn != null)
             {
-                return Ok(postToReturn);
+                PostDTO result = new PostDTO(postToReturn);
+                return Ok(result);
             }
             return BadRequest("No post with provided id found");
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreatePostAsync(Post postToCreate)
+        public async Task<ActionResult> CreatePostAsync(PostDTO postDTO)
         {
             try
             {
+                Post postToCreate = new Post(postDTO);
+                Debug.Print(String.Format("Content: {0}, PostId: {1}, CategoryId: {2}", postToCreate.Content, postToCreate.PostId, postToCreate.CategoryId));
                 await _dbContext.Posts.AddAsync(postToCreate);
                 if (await _dbContext.SaveChangesAsync() >= 1)
                 {
@@ -59,10 +68,11 @@ namespace aspnetserver.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> UpdatePostAsync(Post postToUpdate)
+        public async Task<ActionResult> UpdatePostAsync(PostDTO postDTO)
         {
             try
             {
+                Post postToUpdate = new Post(postDTO);
                 _dbContext.Posts.Update(postToUpdate);
                 if (await _dbContext.SaveChangesAsync() >= 1)
                 {

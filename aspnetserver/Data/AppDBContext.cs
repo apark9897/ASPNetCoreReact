@@ -17,7 +17,7 @@ namespace aspnetserver.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            return;
 
             // seeding logic, uncomment only when needed
 

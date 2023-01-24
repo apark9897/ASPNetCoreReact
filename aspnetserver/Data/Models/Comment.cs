@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using aspnetserver.Data.DTOs;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace aspnetserver.Data.Models
@@ -6,6 +7,7 @@ namespace aspnetserver.Data.Models
     public class Comment
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CommentId { get; set; }
 
 
@@ -27,5 +29,18 @@ namespace aspnetserver.Data.Models
         public int ups { get; set; } = 0;
         [Required]
         public int downs { get; set; } = 0;
+
+        public Comment()
+        {
+        }
+        public Comment(CommentDTO commentDTO)
+        {
+            CommentId = commentDTO.CommentId;
+            Content = commentDTO.Content;
+            PostId = commentDTO.PostId;
+            UserId = commentDTO.UserId;
+            ups = commentDTO.ups;
+            downs = commentDTO.downs;
+        }
     }
 }
