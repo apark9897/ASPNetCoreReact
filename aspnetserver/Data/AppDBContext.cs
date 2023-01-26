@@ -50,19 +50,19 @@ namespace aspnetserver.Data
                 new User()
                 {
                     UserId = 1,
-                    Name = "Barney Dino",
+                    Username = "Barney Dino",
                     Email = "test@test.com"
                 },
                 new User()
                 {
                     UserId = 2,
-                    Name = "Danny Dino",
+                    Username = "Danny Dino",
                     Email = "test2@test.com"
                 },
                 new User()
                 {
                     UserId = 3,
-                    Name = "Billy Bob",
+                    Username = "Billy Bob",
                     Email = "test3@test.com"
                 }
             };
