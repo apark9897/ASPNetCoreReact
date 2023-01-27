@@ -20,49 +20,57 @@ namespace aspnetserver.Controllers
     [Route("[controller]")]
     public class AuthController : ControllerBase
     {
-        public static User user = new User();
+        private readonly AppDBContext _dbContext;
         private readonly IConfiguration _configuration;
 
-        public AuthController(IConfiguration configuration)
+        public AuthController(IConfiguration configuration, AppDBContext dbContext)
         {
             _configuration = configuration;
+            _dbContext = dbContext;
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<User>> Register(CreateUserDTO createUserDTO)
+        public async Task<ActionResult> Register(CreateUserDTO createUserDTO)
         {
             CreatePasswordHash(createUserDTO.Password, out byte[] passwordHash, out byte[] passwordSalt);
-            user.Username = createUserDTO.Username;
-            user.Email = createUserDTO.Email;
-            user.PasswordSalt = passwordSalt;
-            user.PasswordHash = passwordHash;
-
-            return Ok(user);
+            User userToCreate = new User(createUserDTO);
+            userToCreate.PasswordSalt = passwordSalt;
+            userToCreate.PasswordHash = passwordHash;
+            await _dbContext.Users.AddAsync(userToCreate);
+            if (await _dbContext.SaveChangesAsync() >= 1)
+            {
+                return Ok("User created successfully");
+            }
+            return BadRequest("User failed to create");
         }
 
         [HttpPost("login")]
         public async Task<ActionResult> Login(LoginDTO loginDTO)
         {
-            if (user.Username != loginDTO.Username)
-            {
-                return BadRequest("User not found");
-            }
-
-            if(!VerifyPasswordHash(loginDTO.Password, user.PasswordSalt, user.PasswordHash))
+            User validateUser = await _dbContext.Users.FirstOrDefaultAsync(user => user.Username == loginDTO.Username);
+            if (validateUser == null) return BadRequest("User does not exist");
+            if(!VerifyPasswordHash(loginDTO.Password, validateUser.PasswordSalt, validateUser.PasswordHash))
             {
                 return BadRequest("Incorrect pw");
             }
 
-            string token = CreateToken(user);
+            string token = await CreateToken(validateUser);
             return Ok(token);
         }
 
-        private string CreateToken(User user)
+        private async Task<string> CreateToken(User user)
         {
             List<Claim> claims = new List<Claim>()
             {
                 new Claim(ClaimTypes.Name, user.Username)
             };
+            List<UserRole> userRoles = await _dbContext.Roles
+                .Where(r => r.UserId == user.UserId)
+                .ToListAsync();
+            foreach (UserRole userRole in userRoles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, userRole.RoleId));
+            }
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
                 _configuration.GetSection("AppSettings:Token").Value));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);

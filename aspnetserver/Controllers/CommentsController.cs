@@ -1,6 +1,7 @@
 ﻿using aspnetserver.Data;
 using aspnetserver.Data.DTOs;
 using aspnetserver.Data.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -79,7 +80,7 @@ namespace aspnetserver.Controllers
             }
         }
 
-        [HttpDelete("{id:int}")]
+        [HttpDelete("{id:int}"), Authorize(Roles = "Admin")]
         public async Task<ActionResult> DeleteCommentAsync(int id)
         {
             try

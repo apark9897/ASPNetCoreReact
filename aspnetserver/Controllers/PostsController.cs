@@ -1,8 +1,10 @@
 ﻿using aspnetserver.Data;
 using aspnetserver.Data.DTOs;
 using aspnetserver.Data.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
 
@@ -89,7 +91,7 @@ namespace aspnetserver.Controllers
             }
         }
 
-        [HttpDelete("{id:int}")]
+        [HttpDelete("{id:int}"), Authorize(Roles = "Admin")]
         public async Task<ActionResult> DeletePostAsync(int id)
         {
             try

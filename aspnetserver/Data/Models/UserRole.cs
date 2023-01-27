@@ -13,7 +13,6 @@ namespace aspnetserver.Data.Models
         public string RoleId { get; set; }
 
         [Required]
-        [MaxLength(100000)]
         [ForeignKey("UserId")]
         public User User { get; set; }
         public int UserId;
