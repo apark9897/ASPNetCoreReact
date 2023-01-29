@@ -6,6 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
 import PersonIcon from '@mui/icons-material/Person';
@@ -13,10 +14,13 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLogout, IndexState } from 'state';
+import { Button } from '@mui/material';
+import LoginModal from 'components/LoginModal';
 
-export default function AccountMenu() {
+const AccountMenu: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const [isLoginOpen, setIsLoginOpen] = React.useState<boolean>(false);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -27,6 +31,15 @@ export default function AccountMenu() {
   const handleLogout = () => {
     handleClose();
     dispatch(setLogout());
+  }
+
+  if (!isLoggedIn) {
+    return (
+      <React.Fragment>
+        <Button variant="outlined" size='large' startIcon={<AccountCircleIcon />} onClick={() => setIsLoginOpen(true)}>Sign In</Button>
+        <LoginModal open={isLoginOpen} handleClose={() => setIsLoginOpen(false)} />
+      </React.Fragment>
+    )
   }
 
   return (
@@ -94,3 +107,5 @@ export default function AccountMenu() {
     </React.Fragment>
   );
 }
+
+export default AccountMenu;

@@ -26,14 +26,12 @@ import { useNavigate } from 'react-router-dom';
 import FlexBetween from 'components/FlexBetween';
 import AccountMenu from './AccountMenu';
 import NavLink from 'components/NavLink';
-import SignInMenu from './SignInMenu';
 
 const Navbar: FC = (props) => {
-  console.log(props);
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const loggedIn = Boolean(useSelector((state: IndexState) => state.user));
+  const isLoggedIn = Boolean(useSelector((state: IndexState) => state.user));
   const isNonMobileScreen = useMediaQuery('(min-width: 1000px');
 
   const theme = useTheme();
@@ -81,7 +79,7 @@ const Navbar: FC = (props) => {
           </IconButton>
           <Message sx={{ fontSize: '25px' }} />
           <Notifications sx={{ fontSize: '25px' }} />
-          {loggedIn ? <AccountMenu /> : <SignInMenu />}
+          <AccountMenu isLoggedIn={isLoggedIn} />
 
         </FlexBetween>
       )
@@ -137,7 +135,7 @@ const Navbar: FC = (props) => {
             </IconButton>
             <Message sx={{ fontSize: "25px" }} />
             <Notifications sx={{ fontSize: "25px" }} />
-            {loggedIn ? <AccountMenu /> : <SignInMenu />}
+            <AccountMenu isLoggedIn={isLoggedIn} />
           </FlexBetween>
         </Box>
       )}
