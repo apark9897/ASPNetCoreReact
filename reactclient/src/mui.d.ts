@@ -11,6 +11,10 @@ declare module "@mui/material/styles/createPalette" {
     alt: string;
   }
 
+  interface PaletteColor {
+    medium: string;
+  }
+
   interface Palette {
     neutral: PaletteColor
   }

@@ -15,7 +15,20 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddRouting(options => {
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CORSPolicy", builder =>
+    {
+        builder
+        .AllowAnyHeader()
+        .AllowAnyHeader()
+        .WithOrigins("http://localhost:3000", "https://appname.azurestaticapps.net");
+    });
+}
+    );
+
+builder.Services.AddRouting(options =>
+{
     options.LowercaseUrls = true;
     options.LowercaseQueryStrings = true;
 });
@@ -36,7 +49,7 @@ builder.Services.AddSwaggerGen(swaggerGenOptions =>
         Type = SecuritySchemeType.ApiKey
     });
     swaggerGenOptions.OperationFilter<SecurityRequirementsOperationFilter>();
-    swaggerGenOptions.SwaggerDoc("v1", new OpenApiInfo { Title = "ASP.NET React Backend", Version= "v1" });
+    swaggerGenOptions.SwaggerDoc("v1", new OpenApiInfo { Title = "ASP.NET React Backend", Version = "v1" });
 });
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -67,6 +80,8 @@ app.UseSwaggerUI(swaggerUIOptions =>
 });
 
 app.UseHttpsRedirection();
+
+app.UseCors("CORSPolicy");
 
 app.UseAuthentication();
 
