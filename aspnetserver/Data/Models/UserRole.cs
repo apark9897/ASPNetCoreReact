@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace aspnetserver.Data.Models
 {
-    public class UserRole
+    public class UserRole : IEntityDate
     {
         [Key]
         public int Id { get; set; }
@@ -16,5 +16,8 @@ namespace aspnetserver.Data.Models
         [ForeignKey("UserId")]
         public User User { get; set; }
         public int UserId;
+
+        public DateTime CreatedDate { get; set; }
+        public DateTime UpdatedDate { get; set; }
     }
 }

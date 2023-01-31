@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace aspnetserver.Data.Models
 {
-    public class Post
+    public class Post : IEntityDate
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -29,6 +29,14 @@ namespace aspnetserver.Data.Models
         public int UserId { get; set; }
 
         public ICollection<Comment>? Comments { get; set; }
+
+        public DateTime CreatedDate { get; set; }
+        public DateTime UpdatedDate { get; set; }
+
+        [ForeignKey("LastCommentId")]
+        public Comment? LastComment { get; set; }
+
+        public int Views { get; set; } = 0;
 
         public Post()
         {

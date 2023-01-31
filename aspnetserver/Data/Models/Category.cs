@@ -2,7 +2,7 @@
 
 namespace aspnetserver.Data.Models
 {
-    public class Category
+    public class Category : IEntityDate
     {
         [Key]
         public int CategoryId { get; set; }
@@ -11,6 +11,12 @@ namespace aspnetserver.Data.Models
         [MaxLength(100)]
         public string Title { get; set; } = string.Empty;
 
+        [MaxLength(1000)]
+        public string Description { get; set; }
+
         public ICollection<Post>? Posts { get; set; }
+
+        public DateTime CreatedDate { get; set; }
+        public DateTime UpdatedDate { get; set; }
     }
 }

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace aspnetserver.Data.Models
 {
-    public class Comment
+    public class Comment : IEntityDate
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -16,7 +16,7 @@ namespace aspnetserver.Data.Models
         public string Content { get; set; } = string.Empty;
 
         [Required]
-        [ForeignKey("PostId")]
+        [InverseProperty("Comments")]
         public Post? Post { get; set; }
         public int PostId { get; set; }
 
@@ -29,6 +29,9 @@ namespace aspnetserver.Data.Models
         public int ups { get; set; } = 0;
         [Required]
         public int downs { get; set; } = 0;
+
+        public DateTime CreatedDate { get; set; }
+        public DateTime UpdatedDate { get; set; }
 
         public Comment()
         {

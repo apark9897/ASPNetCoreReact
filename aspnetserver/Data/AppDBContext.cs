@@ -15,33 +15,53 @@ namespace aspnetserver.Data
         {
         }
 
+        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        {
+            var AddedEntities = ChangeTracker.Entries().Where(e => e.Entity is IEntityDate && e.State == EntityState.Added).ToList();
+            AddedEntities.ForEach(E =>
+            {
+                E.Property("CreatedDate").CurrentValue = DateTime.Now;
+            });
+            var EditedEntities = ChangeTracker.Entries().Where(e => e.Entity is IEntityDate && e.State == EntityState.Modified).ToList();
+            EditedEntities.ForEach(E =>
+            {
+                E.Property("UpdatedDate").CurrentValue = DateTime.Now;
+            });
+
+            return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            return;
+            // return;
 
             // seeding logic, uncomment only when needed
 
-            Category[] catsToSeed = new Category[] 
+            Category[] catsToSeed = new Category[]
             {
                 new Category()
                 {
                     CategoryId = 1,
-                    Title = "General"
+                    Title = "General",
+                    Description = "Anything music-related goes here"
                 },
                 new Category()
                 {
                     CategoryId = 2,
-                    Title = "Guitar"
+                    Title = "Guitar",
+                    Description = "Guitars are awesome, give it up for guitars"
                 },
                 new Category()
                 {
                     CategoryId = 3,
-                    Title = "Synths"
+                    Title = "Synths",
+                    Description = "We're ready to trip out to synths"
                 },
                 new Category()
                 {
                     CategoryId = 4,
-                    Title = "Vocals"
+                    Title = "Vocals",
+                    Description = "Anything with vocals, vocal performances, healthy vocal techniques, etc are welcome"
                 }
             };
 
@@ -78,7 +98,7 @@ namespace aspnetserver.Data
                     Title = $"Post {i}",
                     Content = $"This is post {i} and it has some very interesting content.",
                     CategoryId = 1,
-                    UserId = (i % 3) + 1
+                    UserId = (i % 3) + 1,
                 };
                 commentsToSeed[i - 1] = new Comment()
                 {
@@ -86,8 +106,8 @@ namespace aspnetserver.Data
                     Content = $"This is a comment on post {i}, I love this post!",
                     PostId = i,
                     ups = 1,
-                    downs = 1,
-                    UserId = ((i + 1) % 3) + 1
+                    downs = 0,
+                    UserId = ((i + 1) % 3) + 1,
                 };
             }
 
