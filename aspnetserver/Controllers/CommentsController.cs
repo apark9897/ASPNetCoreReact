@@ -18,13 +18,13 @@ namespace aspnetserver.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<CommentDTO>>> GetCommentsByPostIdAsync(int postid)
+        public async Task<ActionResult<List<CreateCommentDTO>>> GetCommentsByPostIdAsync(int postid)
         {
             Post validatePost = await _dbContext.Posts.FindAsync(postid);
             if (validatePost == null) return BadRequest("Post does not exist");
-            List<CommentDTO> commentsToReturn = await _dbContext.Comments
+            List<CreateCommentDTO> commentsToReturn = await _dbContext.Comments
                 .Where(e => e.PostId == postid)
-                .Select(e => new CommentDTO(e))
+                .Select(e => new CreateCommentDTO(e))
                 .ToListAsync();
             if (commentsToReturn.Count > 0)
             {
@@ -34,7 +34,7 @@ namespace aspnetserver.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<CommentDTO>> CreateCommentAsync(CommentDTO commentDTO)
+        public async Task<ActionResult<CreateCommentDTO>> CreateCommentAsync(CreateCommentDTO commentDTO)
         {
             Post validatePost = await _dbContext.Posts.FindAsync(commentDTO.PostId);
             if (validatePost == null) return BadRequest("Post does not exist");
@@ -59,7 +59,7 @@ namespace aspnetserver.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> UpdateCommentAsync(CommentDTO commentDTO)
+        public async Task<ActionResult> UpdateCommentAsync(CreateCommentDTO commentDTO)
         {
             try
             {

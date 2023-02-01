@@ -23,6 +23,7 @@ namespace aspnetserver.Data.Models
 
         public Avatar Avatar { get; set; }
         public ICollection<UserRole>? Roles { get; set; }
+        public ICollection<UserLike>? Likes { get; set; }
 
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }

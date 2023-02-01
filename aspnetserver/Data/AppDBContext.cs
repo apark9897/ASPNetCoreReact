@@ -105,8 +105,6 @@ namespace aspnetserver.Data
                     CommentId = i,
                     Content = $"This is a comment on post {i}, I love this post!",
                     PostId = i,
-                    ups = 1,
-                    downs = 0,
                     UserId = ((i + 1) % 3) + 1,
                 };
             }
