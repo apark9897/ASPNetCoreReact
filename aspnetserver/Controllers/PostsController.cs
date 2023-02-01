@@ -21,10 +21,16 @@ namespace aspnetserver.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<PostDTO>>> GetPostsAsync()
+        public async Task<ActionResult<List<HomePostDTO>>> GetHomePagePostsAsync()
         {
-            List<PostDTO> postsToReturn = await _dbContext.Posts
-                .Select(e => new PostDTO(e))
+            List<HomePostDTO> postsToReturn = await _dbContext.Posts
+                .Include(e => e.Category)
+                .Include(e => e.User)
+                .Include(e => e.Comments)
+                .Include(e => e.LastComment.User)
+                .OrderByDescending(e => e.CreatedDate.Date)
+                .OrderByDescending(e => e.Comments.Count)
+                .Select(e => new HomePostDTO(e))
                 .ToListAsync();
             if (postsToReturn.Count > 0)
             {

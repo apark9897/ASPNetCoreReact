@@ -81,7 +81,7 @@ namespace UnitTests
             var postController = new PostsController(dbContext);
 
             // Act
-            var result1 = await postController.GetPostsAsync();
+            var result1 = await postController.GetHomePagePostsAsync();
 
             // Assert
             Assert.NotNull(result1.Result);
