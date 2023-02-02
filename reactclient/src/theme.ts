@@ -98,11 +98,11 @@ export const themeSettings = (mode: PaletteMode): ThemeOptions => {
       },
       h5: {
         fontFamily: ["Rubik", "sans-serif"].join(","),
-        fontSize: 16,
+        fontSize: 18,
       },
       h6: {
         fontFamily: ["Rubik", "sans-serif"].join(","),
-        fontSize: 14,
+        fontSize: 16,
       },
     },
   };

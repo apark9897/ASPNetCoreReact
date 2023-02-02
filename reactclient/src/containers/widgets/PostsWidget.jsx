@@ -1,34 +1,27 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "state";
 import PostWidget from "./PostWidget";
+import {CircularProgress} from '@mui/material';
+import axios from "axios";
 import config from "config";
 const ASPBACKEND = config.ASPBACKEND;
 
 const PostsWidget = ({ userId = null, isProfile = false }) => {
-  const dispatch = useDispatch();
-  const posts = useSelector((state) => state.posts);
   const token = useSelector((state) => state.token);
+  const [posts, setPosts] = useState([]);
+  const [isPostsLoading, setPostsLoading] = useState(true);
 
   const getPosts = async () => {
-    const response = await fetch(`${ASPBACKEND}posts`, {
-      method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    const data = await response.json();
-    dispatch(setPosts({ posts: data }));
+    const response = await axios(`${ASPBACKEND}posts`);
+    setPosts(response.data?.$values);
+    setPostsLoading(false);
   };
 
   const getUserPosts = async () => {
-    const response = await fetch(
-      `http://localhost:3001/posts/${userId}/posts`,
-      {
-        method: "GET",
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
-    const data = await response.json();
-    dispatch(setPosts({ posts: data }));
+    const response = await axios(`${ASPBACKEND}posts/${userId}`);
+    setPosts(response.data?.$values);
+    setPostsLoading(false);
   };
 
   useEffect(() => {
@@ -41,30 +34,35 @@ const PostsWidget = ({ userId = null, isProfile = false }) => {
 
   return (
     <>
-      {posts.map(
+      {isPostsLoading ? <CircularProgress /> : posts.map(
         ({
-          _id,
+          postId,
+          categoryId,
+          categoryTitle,
+          commentCount,
+          createdDate,
+          lastCommentDate,
+          lastCommentUserId,
+          lastCommentUsername,
+          title,
           userId,
-          firstName,
-          lastName,
-          description,
-          location,
-          picturePath,
-          userPicturePath,
-          likes,
-          comments,
+          username,
+          views
         }) => (
           <PostWidget
-            key={_id}
-            postId={_id}
+            key={postId}
+            postId={postId}
             postUserId={userId}
-            name={`${firstName} ${lastName}`}
-            description={description}
-            location={location}
-            picturePath={picturePath}
-            userPicturePath={userPicturePath}
-            likes={likes}
-            comments={comments}
+            username={username}
+            title={title}
+            views={views}
+            commentCount={commentCount}
+            categoryTitle={categoryTitle}
+            categoryId={categoryId}
+            createdDate={createdDate}
+            lastCommentDate={lastCommentDate}
+            lastCommentUserId={lastCommentUserId}
+            lastCommentUsername={lastCommentUsername}
           />
         )
       )}
