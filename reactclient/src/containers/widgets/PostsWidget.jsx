@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "state";
 import PostWidget from "./PostWidget";
-import {CircularProgress} from '@mui/material';
+import {CircularProgress, Typography} from '@mui/material';
 import axios from "axios";
 import config from "config";
 const ASPBACKEND = config.ASPBACKEND;
@@ -34,6 +34,7 @@ const PostsWidget = ({ userId = null, isProfile = false }) => {
 
   return (
     <>
+      <Typography variant="h3" fontWeight="600">Popular Posts</Typography>
       {isPostsLoading ? <CircularProgress /> : posts.map(
         ({
           postId,

@@ -3,20 +3,29 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 import PostsWidget from "containers/widgets/PostsWidget";
+import CategoriesWidget from "containers/widgets/CategoriesWidget";
 
 const HomePage: React.FC = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
 
   return (
-    <Box>
+    <Box display="flex" flexWrap="wrap">
       <Box
-        width="100%"
-        padding="2rem 6%"
+        width={isNonMobileScreens ? "60%" : "100%"}
+        padding="2rem 4%"
         display="block"
       >
         <Box>
-          <Typography variant="h3" fontWeight="600">Popular Posts</Typography>
           <PostsWidget />
+        </Box>
+      </Box>
+      <Box
+        width={isNonMobileScreens ? "40%" : "100%"}
+        padding="2rem 4%"
+        display="block"
+      >
+        <Box>
+          <CategoriesWidget />
         </Box>
       </Box>
     </Box>

@@ -1,6 +1,6 @@
 import {
   ChatBubbleOutlineOutlined,
-  FavoriteBorderOutlined,
+  VisibilityOutlined,
   FavoriteOutlined,
   ShareOutlined,
 } from "@mui/icons-material";
@@ -36,39 +36,40 @@ const PostWidget = ({
   const main = palette.neutral.main;
   const light = palette.neutral.light;
   const primary = palette.primary.main;
-  const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
+  const isNonMobile = useMediaQuery("(min-width:600px)");
 
   return (
     <WidgetWrapper m="1rem 0" display="flex" >
       <Box m="0.5rem" display="flex" alignItems="center" >
         <UserImage size="35px" />
       </Box>
-      <Box m="1rem" display="flex" flexDirection="column" alignItems="flex-start" width="70%">
+      <Box mx="1rem" my="0.5rem" display="flex" flexDirection="column" alignItems="flex-start" width="60%">
         <Typography color={main} variant="h5" fontWeight="500">{title}</Typography>
         <Typography color={main} fontSize="14" fontWeight="300">{`${username}, ${dayjs(createdDate).fromNow()}, ${categoryTitle}`}</Typography>
-      </Box>
-      <Divider orientation="vertical" color={light} flexItem />
-      <Box m="1rem" >
-        <FlexBetween>
-          <Typography color={main} fontSize="14" fontWeight="300">Comments: </Typography>
-          <Typography color={main} fontSize="14" fontWeight="500">{commentCount}</Typography>
-        </FlexBetween>
-        <FlexBetween>
-          <Typography color={main} fontSize="14" fontWeight="300">Views: </Typography>
-          <Typography color={main} fontSize="14" fontWeight="500">{views}</Typography>
-        </FlexBetween>
-      </Box>
-      <FlexBetween mt="0.25rem">
-        <FlexBetween gap="1rem">
-          <FlexBetween gap="0.3rem">
-            <Typography>{commentCount}</Typography>
+        <FlexBetween gap="0.5rem" mt="0.25rem">
+          <FlexBetween gap="0.25rem">
+            <ChatBubbleOutlineOutlined fontSize="small" />
+            <Typography color={main} fontSize="10" fontWeight="500">{commentCount}</Typography>
+          </FlexBetween>
+          <FlexBetween gap="0.25rem">
+            <VisibilityOutlined fontSize="small" />
+            <Typography color={main} fontSize="10" fontWeight="500">{views}</Typography>
           </FlexBetween>
         </FlexBetween>
-
-        <IconButton>
-          <ShareOutlined />
-        </IconButton>
-      </FlexBetween>
+      </Box>
+      {isNonMobile &&
+      <>
+        <Box width="40%" display="flex" alignItems="center" >
+          <Divider orientation="vertical" color={light} flexItem />
+          <Box m="1rem" display="flex" alignItems="center" >
+            <UserImage size="35px" />
+          </Box>
+          <Box m="0.25rem" display="flex" flexDirection="column" alignItems="flex-start">
+            <Typography color={main} fontSize="12" fontWeight="300">{`${lastCommentUsername}, ${dayjs(lastCommentDate).fromNow()}`}</Typography>
+          </Box>
+        </Box>
+      </>
+      }
     </WidgetWrapper>
   );
 };

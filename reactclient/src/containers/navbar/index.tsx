@@ -69,7 +69,7 @@ const Navbar: FC = (props) => {
 
       {/*Desktop nav */}
       {isNonMobileScreen ? (
-        <FlexBetween gap='2rem'>
+        <FlexBetween gap='1.75rem'>
           <IconButton onClick={() => dispatch(setMode())}>
             {theme.palette.mode === "dark" ? (
               <DarkMode sx={{ fontSize: '25px' }} />
