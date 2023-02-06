@@ -37,13 +37,14 @@ const PostWidget = ({
   const light = palette.neutral.light;
   const primary = palette.primary.main;
   const isNonMobile = useMediaQuery("(min-width:600px)");
+  const showLastPost = isNonMobile;
 
   return (
     <WidgetWrapper m="1rem 0" display="flex" >
       <Box m="0.5rem" display="flex" alignItems="center" >
         <UserImage size="35px" />
       </Box>
-      <Box mx="1rem" my="0.5rem" display="flex" flexDirection="column" alignItems="flex-start" width="60%">
+      <Box mx="1rem" my="0.5rem" display="flex" flexDirection="column" alignItems="flex-start" width={showLastPost ? "60%" : "100%"}>
         <Typography color={main} variant="h5" fontWeight="500">{title}</Typography>
         <Typography color={main} fontSize="14" fontWeight="300">{`${username}, ${dayjs(createdDate).fromNow()}, ${categoryTitle}`}</Typography>
         <FlexBetween gap="0.5rem" mt="0.25rem">
@@ -57,7 +58,7 @@ const PostWidget = ({
           </FlexBetween>
         </FlexBetween>
       </Box>
-      {isNonMobile &&
+      {showLastPost &&
       <>
         <Box width="40%" display="flex" alignItems="center" >
           <Divider orientation="vertical" color={light} flexItem />

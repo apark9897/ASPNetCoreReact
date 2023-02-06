@@ -19,7 +19,7 @@ namespace aspnetserver.Data.Models
         public string Content { get; set; } = string.Empty;
 
         [Required]
-        [ForeignKey("CategoryId")]
+        [InverseProperty("Posts")]
         public Category? Category { get; set; }
         public int CategoryId { get; set; }
 

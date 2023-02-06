@@ -12,8 +12,6 @@ const CategoriesWidget = () => {
   const [isCategoriesLoading, setCategoriesLoading] = useState(true);
 
   const getCategories = async () => {
-    setCategories([1, 2, 3, 4, 5, 6]);
-    return setCategoriesLoading(false);
     const response = await axios(`${ASPBACKEND}categories`);
     setCategories(response.data?.$values);
     setCategoriesLoading(false);
@@ -27,10 +25,17 @@ const CategoriesWidget = () => {
     <>
       <Typography variant="h3" fontWeight="600">Popular Categories</Typography>
       {isCategoriesLoading ? <CircularProgress /> : categories.map(
-        () => (
+        ({
+          categoryId,
+          title,
+          description,
+          postCount
+        }) => (
           <CategoryWidget
-            title="Category test"
-            description="Test description, lorem ipsum piggy poodle"
+            title={title}
+            description={description}
+            postCount={postCount}
+            categoryId={categoryId}
           />
         )
       )}
