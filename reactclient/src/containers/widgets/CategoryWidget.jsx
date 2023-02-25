@@ -47,10 +47,10 @@ const CategoryWidget = ({
       </Box>
       <Box mx="1rem" my="0.5rem" display="flex" flexDirection="column" alignItems="flex-start" width={showLastPost ? "60%" : "100%"}>
         <Typography color={main} variant="h5" fontWeight="500">{title}</Typography>
-        <Typography color={main} variant="h6" fontWeight="500">{description}</Typography>
+        <Typography color={main} variant="body1" fontWeight="500">{description}</Typography>
         <FlexBetween gap="0.25rem">
           <ArticleOutlined fontSize="small" />
-          <Typography color={main} fontSize="10" fontWeight="500">{postCount}</Typography>
+          <Typography color={main} variant="subtitle1">{postCount}</Typography>
         </FlexBetween>
       </Box>
       {showLastPost &&

@@ -9,6 +9,7 @@ import { CssBaseline, ThemeProvider } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
 import { themeSettings } from 'theme';
 import Navbar from 'containers/navbar';
+import PostPage from 'containers/postPage';
 
 const App: React.FC = () => {
   const mode = useSelector((state: IndexState) => state.mode);
@@ -22,6 +23,7 @@ const App: React.FC = () => {
           <Navbar />
           <Routes>
             <Route path='/' element={<HomePage />} />
+            <Route path='/post/:postId' element={<PostPage />} />
             <Route path='/profile/:userId' element={<ProfilePage />} />
           </Routes>
         </ThemeProvider>

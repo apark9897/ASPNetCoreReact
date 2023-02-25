@@ -46,15 +46,15 @@ const PostWidget = ({
       </Box>
       <Box mx="1rem" my="0.5rem" display="flex" flexDirection="column" alignItems="flex-start" width={showLastPost ? "60%" : "100%"}>
         <Typography color={main} variant="h5" fontWeight="500">{title}</Typography>
-        <Typography color={main} fontSize="14" fontWeight="300">{`${username}, ${dayjs(createdDate).fromNow()}, ${categoryTitle}`}</Typography>
+        <Typography color={main} variant="body2">{`${username}, ${dayjs(createdDate).fromNow()}, in ${categoryTitle}`}</Typography>
         <FlexBetween gap="0.5rem" mt="0.25rem">
           <FlexBetween gap="0.25rem">
             <ChatBubbleOutlineOutlined fontSize="small" />
-            <Typography color={main} fontSize="10" fontWeight="500">{commentCount}</Typography>
+            <Typography color={main} variant="subtitle1">{commentCount}</Typography>
           </FlexBetween>
           <FlexBetween gap="0.25rem">
             <VisibilityOutlined fontSize="small" />
-            <Typography color={main} fontSize="10" fontWeight="500">{views}</Typography>
+            <Typography color={main} variant="subtitle1">{views}</Typography>
           </FlexBetween>
         </FlexBetween>
       </Box>
@@ -66,7 +66,7 @@ const PostWidget = ({
             <UserImage size="35px" />
           </Box>
           <Box m="0.25rem" display="flex" flexDirection="column" alignItems="flex-start">
-            <Typography color={main} fontSize="12" fontWeight="300">{`${lastCommentUsername}, ${dayjs(lastCommentDate).fromNow()}`}</Typography>
+            <Typography color={main} variant="body2">{`${lastCommentUsername}, ${dayjs(lastCommentDate).fromNow()}`}</Typography>
           </Box>
         </Box>
       </>

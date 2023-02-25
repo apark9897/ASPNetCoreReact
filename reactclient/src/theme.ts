@@ -104,6 +104,24 @@ export const themeSettings = (mode: PaletteMode): ThemeOptions => {
         fontFamily: ["Rubik", "sans-serif"].join(","),
         fontSize: 16,
       },
+      body1: {
+        fontFamily: ["Rubik", "sans-serif"].join(","),
+        fontSize: 14,
+      },
+      body2: {
+        fontFamily: ["Rubik", "sans-serif"].join(","),
+        fontSize: 13,
+      },
+      subtitle1: {
+        fontFamily: ["Rubik", "sans-serif"].join(","),
+        fontStyle: "bold",
+        fontSize: 12
+      },
+      subtitle2: {
+        fontFamily: ["Rubik", "sans-serif"].join(","),
+        fontStyle: "bold",
+        fontSize: 11
+      },
     },
   };
 };

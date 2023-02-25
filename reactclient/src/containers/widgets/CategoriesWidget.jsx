@@ -36,6 +36,7 @@ const CategoriesWidget = () => {
             description={description}
             postCount={postCount}
             categoryId={categoryId}
+            key={categoryId}
           />
         )
       )}

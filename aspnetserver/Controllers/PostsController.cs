@@ -40,13 +40,16 @@ namespace aspnetserver.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<PostDTO>> GetPostByIdAsync(int id)
+        public async Task<ActionResult<GetPostDTO>> GetPostByIdAsync(int id)
         {
             var postToReturn = await _dbContext.Posts
+                .Include(e => e.Category)
+                .Include(e => e.User)
+                .Include(e => e.Comments)
                 .FirstOrDefaultAsync(post => post.PostId == id);
             if (postToReturn != null)
             {
-                PostDTO result = new PostDTO(postToReturn);
+                GetPostDTO result = new GetPostDTO(postToReturn);
                 return Ok(result);
             }
             return BadRequest("No post with provided id found");
